@@ -1,0 +1,135 @@
+<html>
+  <head>
+    {% load static %}
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>EEE</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'lesson.css' %}">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+        <!-- webcam -->
+        <video class="webcam" id="myVidPlayer" controls autoplay></video>
+        <script type="text/javascript">
+            //Selector for your <video> element
+            const video = document.querySelector('#myVidPlayer');
+    
+            //Core
+            window.navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.onloadedmetadata = (e) => {
+                        video.play();
+                    };
+                })
+                .catch( () => {
+                    alert('You have give browser the permission to run Webcam and mic ;( ');
+                });
+        </script>
+
+        <!-- sentence -->
+        <div class="sentence">
+            <div class="container mt-3">
+                <div id="results">
+                  <span id="final_span" class="final"></span>
+                  <span id="interim_span" class="interim"></span>
+                </div>
+                <div class="row col-12 p-0 m-0" id="remove_row">
+                    <div class="row col-12 col-md-8 col-lg-6 p-0 m-0">
+                        <select id="select_language"></select>
+                        <select id="select_dialect"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- sign_language -->
+        <video class="sign_language" id="idle_video" muted playbackRate=3 onended="onVideoEnded();"></video>
+        <script type="text/javascript">
+
+            var video_list      = [];
+            var video_index     = 0;
+            var video_player    = null;
+            var firstview       = true;
+            var new_arr         = [];
+            var x = document.getElementById("idle_video");
+            function onload(){
+                console.log("body loaded");
+                console.log("list : ",video_list);
+                video_player = document.getElementById("idle_video");
+                // error
+                video_player.setAttribute("src",'../../'+video_list[video_index]);
+                video_player.playbackRate=3
+                video_player.play();
+            }
+
+            function onVideoEnded(){
+                console.log("video ended");
+                if(video_index < video_list.length - 1){
+                    video_index++;
+                }
+                else {
+                    video_index = 0;
+                    video_list = [];
+                    firstview = true;
+                    return
+                }
+                video_player.setAttribute("src", '../../'+video_list[video_index]);
+                video_player.playbackRate=3
+                video_player.play();
+            }
+
+        </script>
+
+        <!-- button -->
+        <div class="top">
+            <button id="start_button">
+                <img id="start_img" src="{% static './images/mic.gif' %}" alt="Start">
+            </button>
+
+            <p>|</p>
+
+            <button id="Btn" onclick="myFunction2()">자막</button>
+            <script>
+                function myFunction2() {
+                var x = document.getElementById("results");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+                }
+            </script>
+
+            <p>|</p>
+
+            <button id="Btn" onclick="myFunction()">수화</button>
+            <script>
+                function myFunction() {
+                var x = document.getElementById("idle_video");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+                }
+            </script>
+        </div>
+    </div>
+
+    <!-- javascript -->
+    <script>
+        var url1 = "{% static 'images/mic-animation.gif' %}";
+        var url2 = "{% static 'images/mic-slash' %}";
+        var url3 = "{% static 'images/mic.gif' %}";
+        var url4 = "{% url 'result' %}";
+    </script>
+    <script src = "{% static 'languages.js' %}" ></script>
+    <script src = "{% static 'web-speech-api.js' %}" ></script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hang glider</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel = "stylesheet" href="{% static 'home.css' %}" type="text/css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__logo">
+            <img src="{% static './images/logo.jpg'%}">
+            <a href="">HANG GLIDER</a>
+        </div>
+        {% if user.is_authenticated %}
+            <ul class="navbar__id">
+                <li><a href=""> Hello, {{user.get_username}} !</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        {% else %}
+            <ul class="navbar__id">
+                <li><a href="{% url 'signup' %}">Signup</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+            </ul>
+        {% endif %}
+    </nav>
+
+    <div class="body_container">
+        <div class="wrapper">
+            <div class="text_container">
+                <div class="main">
+                    <p>Essential Online Web <br> Platform for Education</p>
+                </div>
+                <div class="detail">
+                    Welcome to Hang glider!
+                </div>
+                <button class="go_detail">
+                    <a href="{% url 'lesson' %}"> Enter </a>
+                </button>
+            </div>
+            <div class="image_container">
+                <img src="{% static './images/home.jpg'%}">
+            </div>
+        </div>
+    </div>
+
+    <div class="body_container">
+        <div class="wrapper">
+            <div class="feedback_container">
+                <div class="title">Let's Get In Touch!</div>
+                <div class="text">
+                    <p>서비스 이용 후 개선할 점이나 보완할 점이 있다면 연락주세요. <br> 어떤 피드백이라도 괜찮습니다.</p>
+                </div>
+                <div class="contact">
+                    <i class="material-icons">mail</i>
+                    <p>spdlqj9777@likelion.org</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Copyright © 2020 EEE. All Rights Reserved.</p>
+        <p>대표 : 박동호 | 주소 : 광주인공지능사관학교 광주광역시 북구 첨단과기로 339 2층 </p>
+    </div>
+</body>
+</html>
